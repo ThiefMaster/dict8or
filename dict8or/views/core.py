@@ -17,5 +17,6 @@ def _fetch_ranking():
     ranking = OrderedDict()
     packages = [p.decode('utf-8') for p in redis.zrangebyscore('ranking', '-inf', 'inf')]
     for p in packages:
-        ranking[p] = {k.decode('utf-8'): v.decode('utf-8') for (k, v) in redis.hgetall(p).iteritems()}
+        values = [v.decode('utf-8') for v in redis.hmget(p, 'warnings', 'errors')]
+        ranking[p] = {"warnings": values[0], "errors": values[1]}
     return ranking
