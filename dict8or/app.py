@@ -1,5 +1,5 @@
 from flask import Flask
-from webassets import Environment, Bundle
+from flask.ext.assets import Environment, Bundle
 
 from dict8or.util import CSSPrefixer
 from dict8or.views.core import core
@@ -8,9 +8,9 @@ from dict8or.views.core import core
 def setup_assets(app):
     assets = Environment(app)  # environment is needed for webassets cli build
     assets.debug = app.debug
-    js = Bundle('js/lib/jquery.js',
+    js = Bundle('js/lib/jquery-2.0.2.js', 'js/lib/bootstrap-button.js',
                 filters='rjsmin', output='assets/bundle.%(version)s.js')
-    css = Bundle('css/reset.css', 'css/jquery-ui.css',
+    css = Bundle('less/lib/bootstrap.less', 'less/core.less',
                  filters=('less', 'cssrewrite', CSSPrefixer(), 'cssmin'), output='assets/bundle.%(version)s.css')
     assets.register('js_all', js)
     assets.register('css_all', css)

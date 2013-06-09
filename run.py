@@ -1,4 +1,5 @@
 import argparse
+import sys
 
 from dict8or.app import make_app
 
@@ -11,7 +12,11 @@ def main():
     parser.add_argument('-r', '--reloader', help='Use the flask autoreloader', action='store_true')
     args = parser.parse_args()
     app = make_app()
-    app.run(args.host, args.port, debug=app.debug, use_reloader=args.reloader, use_evalex=args.evalex)
+    try:
+        app.run(args.host, args.port, debug=app.debug, use_reloader=args.reloader, use_evalex=args.evalex)
+    except KeyboardInterrupt:
+        print()
+        sys.exit(0)
 
 
 if __name__ == '__main__':

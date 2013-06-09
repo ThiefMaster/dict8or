@@ -37,5 +37,9 @@ nosetests.xml
 # Virtualenv
 env/
 
+# Webassets
+.webassets-cache
+dict8or/static/assets/
+
 # Config
 dict8or/config.py
