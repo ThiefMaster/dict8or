@@ -3,6 +3,7 @@ import sys
 from flask import current_app
 from flask.ext.script import Manager, Shell, Command, Option
 from dict8or.app import make_app, celery, redis
+from dict8or.tasks.pypi import fetch_pypi_list
 
 
 class Server(Command):
@@ -40,6 +41,11 @@ def run_worker(concurrency='4', beat=False):
         celery.worker_main(args)
 
 
+def update_pypi():
+    """Re-download the PyPI package list"""
+    fetch_pypi_list()
+
+
 def _make_shell_context():
     ctx = {
         'redis': redis,
@@ -58,6 +64,7 @@ def main():
     manager = Manager(make_app(), with_default_commands=False)
 
     manager.command(run_worker)
+    manager.command(update_pypi)
 
     manager.add_command('shell', Shell(make_context=_make_shell_context))
     manager.add_command('run', Server())
