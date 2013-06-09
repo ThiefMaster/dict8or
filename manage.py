@@ -1,5 +1,6 @@
 import sys
 
+from flask import current_app
 from flask.ext.script import Manager, Shell, Command, Option
 from dict8or.app import make_app, celery, redis
 
@@ -40,7 +41,8 @@ def run_worker(concurrency='4', beat=False):
 
 
 def _make_shell_context():
-    return {'redis': redis}
+    return {'redis': redis,
+            'app': current_app}
 
 
 def main():
