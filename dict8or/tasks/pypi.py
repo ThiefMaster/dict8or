@@ -29,6 +29,7 @@ def fetch_and_check(pkg_name):
     finally:
         # remove tmp
         shutil.rmtree(dir_path, ignore_errors=True)
+        redis.srem('pending_packages', pkg_name.lower())
 
 
 @celery.task
