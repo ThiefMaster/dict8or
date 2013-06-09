@@ -9,7 +9,6 @@ from bs4 import BeautifulSoup
 from flask import current_app as app
 from pip.req import InstallRequirement
 from pip.index import PackageFinder
-from redis import WatchError
 
 from dict8or.app import celery, redis
 from dict8or.tasks.util import _fetch_and_extract
