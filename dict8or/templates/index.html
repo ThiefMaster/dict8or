@@ -1,13 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Dict8or - PEP8 at all cost!</title>
-    {% assets 'css_all' -%}
-        <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
-    {% endassets %}
-    {% assets 'js_all' -%}
-        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-    {% endassets %}
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+      <div class="row">
+        <div class="span8">
+            Rankings
+        </div>
+        <div class="span4">
+            sidebar
+        </div>
+      </div>
+    </div>
+{% endblock %}

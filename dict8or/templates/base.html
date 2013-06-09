@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dict8or - PEP8 at all cost!</title>
+        {% assets 'css_all' -%}
+            <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
+        {% endassets %}
+        {% assets 'js_all' -%}
+            <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+        {% endassets %}
+    </head>
+
+    <body>
+        {% include "header.html" %}
+
+        {% block content %}
+
+        {% endblock %}
+
+        {% include "footer.html" %}
+    </body>
+</html>
