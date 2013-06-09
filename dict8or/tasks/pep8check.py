@@ -20,7 +20,7 @@ class Dict8orReport(BaseReport):
 def pep8_check(pkg_name, dir_path):
     print("Scanning {}".format(dir_path))
 
-    sg = StyleGuide(reporter=Dict8orReport)
+    sg = StyleGuide(reporter=Dict8orReport, max_line_length=120)
     r = sg.check_files([dir_path])
 
     n_warn = r.get_count('W')
