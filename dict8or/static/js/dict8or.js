@@ -24,6 +24,15 @@
                     }
                 });
             }, 250)
+        }).on('keydown', function(e) {
+            if (e.which != 13) {
+                return;
+            }
+            var typeahead = $(this).data('typeahead');
+            if (typeahead && typeahead.shown) {
+                return;
+            }
+            console.log('Add package: ' + this.value);
         });
     });
 })(jQuery);
