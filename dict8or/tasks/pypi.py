@@ -5,10 +5,9 @@ import re
 from urlparse import urljoin
 
 import requests
-import redis
 from bs4 import BeautifulSoup
 
-from dict8or.app import make_app, celery
+from dict8or.app import make_app, celery, redis
 from dict8or.tasks.util import _fetch_and_extract
 from dict8or.tasks.pep8check import pep8_check
 
@@ -44,11 +43,6 @@ def fetch_and_check(pkg_name):
         print("Error getting '{} ({})'".format(url, r.status_code))
 
 
-@contextmanager
-def storage():
-    yield redis.StrictRedis.from_url(app.config['DB_STORAGE'])
-
-
 @celery.task
 def fetch_pypi_list():
     url = app.config['PYPI_LIST_URL']
@@ -61,9 +55,8 @@ def fetch_pypi_list():
         print("Packages retrieved")
 
         # save result to DB
-        with storage() as db:
-            db.delete('pypi_packages')
-            db.hmset('pypi_packages', packages)
+        redis.delete('pypi_packages')
+        redis.hmset('pypi_packages', packages)
         print("Saved in DB")
 
     else:
