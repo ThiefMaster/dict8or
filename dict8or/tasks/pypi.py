@@ -39,13 +39,13 @@ def fetch_pypi_list():
     if r.status_code == 200:
         soup = BeautifulSoup(r.content)
 
-        packages = dict((l.get_text(), l.get('href')) for l in soup.find_all('a'))
+        packages = (link.get_text() for link in soup.find_all('a'))
         print("Packages retrieved")
 
         # save result to DB
         with redis.pipeline() as pipe:
             pipe.delete('pypi_packages')
-            pipe.hmset('pypi_packages', packages)
+            pipe.sadd('pypi_packages', *packages)
             pipe.execute()
         print("Saved in DB")
 
