@@ -4,6 +4,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dict8or - PEP8 at all cost!</title>
+        <script>
+            var URLS = {{ js_api_urls|tojson|safe }};
+        </script>
         {% assets 'css_all' -%}
             <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
         {% endassets %}
