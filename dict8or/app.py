@@ -1,17 +1,22 @@
+import os
 from flask import Flask
 from flask.ext.assets import Environment, Bundle
+from glob import glob
 
-from dict8or.util import CSSPrefixer
 from dict8or.views.core import core
 
 
 def setup_assets(app):
-    assets = Environment(app)  # environment is needed for webassets cli build
+    assets = Environment(app)
     assets.debug = app.debug
-    js = Bundle('js/lib/jquery-2.0.2.js', 'js/lib/bootstrap-button.js',
+    static_base = os.path.join(app.root_path, 'static')
+    bootstrap_files = [os.path.relpath(path, static_base) for path in
+                       glob(os.path.join(static_base, 'js/lib/bootstrap-*.js'))]
+    bootstrap = Bundle(*bootstrap_files)
+    js = Bundle('js/lib/jquery-2.0.2.js', bootstrap, 'js/dict8or.js',
                 filters='rjsmin', output='assets/bundle.%(version)s.js')
     css = Bundle('less/lib/bootstrap.less', 'less/core.less',
-                 filters=('less', 'cssrewrite', CSSPrefixer(), 'cssmin'), output='assets/bundle.%(version)s.css')
+                 filters=('less', 'cssrewrite', 'cssmin'), output='assets/bundle.%(version)s.css')
     assets.register('js_all', js)
     assets.register('css_all', css)
 

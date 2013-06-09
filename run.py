@@ -15,7 +15,7 @@ def main():
     try:
         app.run(args.host, args.port, debug=app.debug, use_reloader=args.reloader, use_evalex=args.evalex)
     except KeyboardInterrupt:
-        print()
+        print
         sys.exit(0)
 
 
