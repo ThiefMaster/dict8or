@@ -35,7 +35,8 @@ def run_worker(concurrency='4', beat=False):
     args += ('-c', concurrency)
     if beat:
         args += ('-B', '-s', 'tmp/celerybeat-schedule')
-    celery.worker_main(args)
+    with make_app().app_context():
+        celery.worker_main(args)
 
 
 def main():

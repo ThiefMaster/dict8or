@@ -1,20 +1,18 @@
 from __future__ import print_function
-from contextlib import contextmanager
-from distutils.version import LooseVersion
+
 import re
+from distutils.version import LooseVersion
 from urlparse import urljoin
 
 import requests
 from bs4 import BeautifulSoup
+from flask import current_app as app
 
-from dict8or.app import make_app, celery, redis
+from dict8or.app import celery, redis
 from dict8or.tasks.util import _fetch_and_extract
-from dict8or.tasks.pep8check import pep8_check
 
 
 RE_FILE_VERSION = re.compile(r'(.*)-(?P<version>.*).tar.gz')
-
-app = make_app()
 
 
 def extract_version(file_name):
