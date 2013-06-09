@@ -1,0 +1,20 @@
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <td>#</td>
+            <td>project</td>
+            <td>errors</td>
+            <td>warnings</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for (pkg, v) in ranking.iteritems() %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{pkg}}</td>
+                <td>{{v.errors}}</td>
+                <td>{{v.warnings}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
