@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from itertools import izip
 
 from flask import Blueprint, render_template
 from dict8or.app import redis
@@ -15,8 +16,7 @@ def index():
 
 def _fetch_ranking():
     ranking = OrderedDict()
-    packages = [p.decode('utf-8') for p in redis.zrangebyscore('ranking', '-inf', 'inf')]
-    for p in packages:
-        values = [v.decode('utf-8') for v in redis.hmget(p, 'warnings', 'errors')]
-        ranking[p] = {"warnings": values[0], "errors": values[1]}
+    keys = 'warnings', 'errors'
+    for p in redis.zrangebyscore('ranking', '-inf', 'inf'):
+        ranking[p] = dict(izip(keys, redis.hmget('pkg:' + p, keys)))
     return ranking
