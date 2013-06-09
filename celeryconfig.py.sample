@@ -1,3 +1,6 @@
+from celery.schedules import crontab
+
+
 BROKER_URL = 'redis://localhost/1'
 CELERY_RESULT_BACKEND = 'redis://localhost/1'
 
@@ -7,3 +10,11 @@ CELERY_TIMEZONE = 'Europe/Zurich'
 CELERY_ENABLE_UTC = True
 
 CELERY_IMPORTS = ['dict8or.tasks.pypi']
+
+CELERYBEAT_SCHEDULE = {
+    'global-update': {
+        'task': 'tasks.update_results',
+        'schedule': crontab(hour=2, minute=0),
+        'args': ()
+    },
+}
