@@ -41,8 +41,17 @@ def run_worker(concurrency='4', beat=False):
 
 
 def _make_shell_context():
-    return {'redis': redis,
-            'app': current_app}
+    ctx = {
+        'redis': redis,
+        'app': current_app,
+        'celery': celery
+    }
+    for key, func in celery.tasks.iteritems():
+        if not key.startswith('dict8or.tasks.'):
+            continue
+        ctx_key = '_'.join(key.split('.')[2:])
+        ctx[ctx_key] = func
+    return ctx
 
 
 def main():
