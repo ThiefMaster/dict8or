@@ -1,7 +1,7 @@
 import sys
 
 from flask.ext.script import Manager, Shell, Command, Option
-from dict8or.app import make_app, celery
+from dict8or.app import make_app, celery, redis
 
 
 class Server(Command):
@@ -39,12 +39,16 @@ def run_worker(concurrency='4', beat=False):
         celery.worker_main(args)
 
 
+def _make_shell_context():
+    return {'redis': redis}
+
+
 def main():
     manager = Manager(make_app(), with_default_commands=False)
 
     manager.command(run_worker)
 
-    manager.add_command('shell', Shell())
+    manager.add_command('shell', Shell(make_context=_make_shell_context))
     manager.add_command('run', Server())
 
     manager.run()
