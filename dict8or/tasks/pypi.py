@@ -35,6 +35,8 @@ def fetch_and_check(pkg_name):
 def fetch_pypi_list():
     url = app.config['PYPI_LIST_URL']
 
+    print("Fetching packages")
+
     r = requests.get(url)
     if r.status_code == 200:
         soup = BeautifulSoup(r.content)

@@ -10,7 +10,7 @@ api = Blueprint('api', __name__, url_prefix='/api')
 @api.route('/search-pypi-packages')
 def search_pypi_packages():
     search = request.args['search'].lower()
-    packages = [p for p in redis.smembers('pypi_packages') if search in p.lower()]
+    packages = sorted([p for p in redis.smembers('pypi_packages') if search in p.lower()])
     return jsonify(packages=packages)
 
 
@@ -34,4 +34,3 @@ def _package_is_queued(package):
         return False
 
     return redis.transaction(_helper, 'pending_packages', value_from_callable=True)
-
