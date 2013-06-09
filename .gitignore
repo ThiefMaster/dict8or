@@ -43,3 +43,4 @@ dict8or/static/assets/
 
 # Config
 dict8or/config.py
+celeryconfig.py
