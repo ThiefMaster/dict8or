@@ -46,6 +46,7 @@ def fetch_pypi_list():
         with redis.pipeline() as pipe:
             pipe.delete('pypi_packages')
             pipe.hmset('pypi_packages', packages)
+            pipe.execute()
         print("Saved in DB")
 
     else:
