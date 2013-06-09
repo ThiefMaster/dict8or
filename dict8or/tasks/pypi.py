@@ -37,6 +37,7 @@ def fetch_and_check(pkg_name):
         print(_fetch_and_extract(pkg_name, choice[0], urljoin(url, choice[1])))
 
         pep8_check()
+        redis.srem('pending_packages', pkg_name.lower())
     else:
         print("Error getting '{} ({})'".format(url, r.status_code))
 

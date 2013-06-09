@@ -28,7 +28,8 @@ def setup_jinja(app):
     def _context_processor():
         return {
             'js_api_urls': {
-                'search_pypi_packages': url_for('api.search_pypi_packages')
+                'search_pypi_packages': url_for('api.search_pypi_packages'),
+                'enqueue_pypi_package': url_for('api.enqueue_pypi_package')
             }
         }
 

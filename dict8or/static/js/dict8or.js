@@ -25,14 +25,35 @@
                 });
             }, 250)
         }).on('keydown', function(e) {
+            var $this = $(this);
             if (e.which != 13) {
                 return;
             }
-            var typeahead = $(this).data('typeahead');
+            var typeahead = $this.data('typeahead');
             if (typeahead && typeahead.shown) {
                 return;
             }
-            console.log('Add package: ' + this.value);
+
+            $this.prop('disabled', true);
+            $.ajax({
+                type: 'POST',
+                url: URLS.enqueue_pypi_package,
+                data: {
+                    'package': $this.val()
+                },
+                success: function(response) {
+                    $this.val('');
+                    if (!response.success) {
+                        alert('Could not enqueue package: ' + response.msg);
+                    }
+                    else {
+                        alert('Package successfully enqueued!');
+                    }
+                },
+                complete: function() {
+                    $this.prop('disabled', false);
+                }
+            });
         });
     });
 })(jQuery);
