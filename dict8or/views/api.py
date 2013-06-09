@@ -10,8 +10,7 @@ api = Blueprint('api', __name__, url_prefix='/api')
 @api.route('/search-pypi-packages')
 def search_pypi_packages():
     search = request.args['search'].lower()
-    packages = (p.decode('utf-8') for p in redis.hkeys('pypi_packages'))
-    packages = [p for p in packages if search in p.lower()]
+    packages = [p for p in redis.hkeys('pypi_packages') if search in p.lower()]
     return jsonify(packages=packages)
 
 

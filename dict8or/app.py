@@ -58,7 +58,7 @@ def make_app():
 
 def _get_redis():
     if not hasattr(current_app, '_redis'):
-        current_app._redis = StrictRedis.from_url(current_app.config['DB_STORAGE'])
+        current_app._redis = StrictRedis.from_url(current_app.config['DB_STORAGE'], decode_responses=True)
     return current_app._redis
 
 
