@@ -37,3 +37,6 @@ nosetests.xml
 
 # Virtualenv
 env/
+
+# Config
+dict8or/config.py
