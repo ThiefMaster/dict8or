@@ -50,3 +50,14 @@ def fetch_pypi_list():
 
     else:
         print("Impossible to fetch PyPI list: {}: {}".format(r.status_code, r.content))
+
+
+@celery.task
+def update_result(pkg_name):
+    fetch_and_check(pkg_name)
+
+
+@celery.task
+def update_results():
+    for pkg_name in redis.hvals('ranking'):
+        update_result(pkg_name).delay()
