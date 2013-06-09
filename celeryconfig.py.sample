@@ -1,0 +1,9 @@
+BROKER_URL = 'redis://localhost/1'
+CELERY_RESULT_BACKEND = 'redis://localhost/1'
+
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Europe/Zurich'
+CELERY_ENABLE_UTC = True
+
+CELERY_IMPORTS = ['dict8or.tasks.pypi']
