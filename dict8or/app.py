@@ -1,7 +1,9 @@
 import os
+from glob import glob
+
 from flask import Flask
 from flask.ext.assets import Environment, Bundle
-from glob import glob
+from celery import Celery
 
 from dict8or.views.core import core
 
@@ -21,9 +23,18 @@ def setup_assets(app):
     assets.register('css_all', css)
 
 
+def make_celery():
+    celery = Celery()
+    celery.config_from_object('celeryconfig')
+    return celery
+
+
 def make_app():
     app = Flask('dict8or')
     app.config.from_pyfile('config.py')
     setup_assets(app)
     app.register_blueprint(core)
     return app
+
+
+celery = make_celery()
