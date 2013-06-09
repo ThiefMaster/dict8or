@@ -1,3 +1,5 @@
+import sys
+
 from flask.ext.script import Manager, Shell, Command, Option
 from dict8or.app import make_app
 
@@ -27,10 +29,27 @@ class Server(Command):
         app.run(host=host, port=port, use_evalex=use_evalex, threaded=threaded, use_reloader=reloader)
 
 
+def run_worker(concurrency='4', beat=False):
+    """Runs the celery worker"""
+    from celery import Celery
+
+    args = sys.argv[:1]
+    args += ('-c', concurrency)
+    if beat:
+        args += ('-B', '-s', 'tmp/celerybeat-schedule')
+    celery = Celery()
+    celery.config_from_object('celeryconfig')
+    celery.worker_main(args)
+
+
 def main():
     manager = Manager(make_app(), with_default_commands=False)
+
+    manager.command(run_worker)
+
     manager.add_command('shell', Shell())
     manager.add_command('run', Server())
+
     manager.run()
 
 
