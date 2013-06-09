@@ -1,7 +1,23 @@
-#header {
-    background: red;
+@red: #B90504;
+// @red: #990100;
+@gray: #333333;
+@white: #F6F6F6;
+
+header {
+    background: @red;
+    text-align: left;
+    border-bottom: 1px solid @gray;
+    color: @white;
+    padding: 20px 0;
 
     h1 {
-
     }
+}
+
+footer {
+    background: @red;
+    color: @white;
+    padding: 30px;
+    text-align: center;
+    border-top: 1px solid @gray;
 }
